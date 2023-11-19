@@ -18,7 +18,7 @@ from app.schemas.charity_project import (
     CharityProjectDB,
     CharityProjectUpdate,
 )
-from app.services.finances import to_close, to_invest
+from app.services.finances import to_close, to_invest_free_donates
 
 
 router = APIRouter()
@@ -55,7 +55,7 @@ async def create_new_charity_project(
         charity_project,
         session,
     )
-    await to_invest(new_charity_project, session)
+    await to_invest_free_donates(new_charity_project, session)
     await session.refresh(new_charity_project)
     return new_charity_project
 

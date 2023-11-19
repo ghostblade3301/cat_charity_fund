@@ -8,7 +8,7 @@ from app.core.user import current_user
 from app.crud.donation import donation_crud
 from app.models import User
 from app.schemas.donation import DonationCreate, DonationDB, DonationDBMain
-from app.services.finances import to_invest
+from app.services.finances import to_invest_free_donates
 
 
 router = APIRouter()
@@ -55,6 +55,6 @@ async def create_new_donation(
         session,
         user,
     )
-    await to_invest(new_donation, session)
+    await to_invest_free_donates(new_donation, session)
     await session.refresh(new_donation)
     return new_donation
