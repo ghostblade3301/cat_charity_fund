@@ -39,16 +39,16 @@ async def to_invest_free_donates(
     model = MODELS[isinstance(object, CharityProject)]
     open_objects = await get_all_open_projects(model, session)
     if open_objects:
-        amount_to_invest = object.full_amount
+        invest_amount = object.full_amount
         for open_object in open_objects:
-            amount = open_object.full_amount - open_object.invested_amount
-            invested_amount = min(amount, amount_to_invest)
+            result = open_object.full_amount - open_object.invested_amount
+            invested_amount = min(result, invest_amount)
             open_object.invested_amount += invested_amount
             object.invested_amount += invested_amount
-            amount_to_invest -= invested_amount
+            invest_amount -= invested_amount
             if open_object.full_amount == open_object.invested_amount:
                 await to_close(open_object)
-            if not amount_to_invest:
+            if not invest_amount:
                 await to_close(object)
                 break
         await session.commit()
