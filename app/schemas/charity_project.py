@@ -17,7 +17,7 @@ class CharityProjectBase(BaseModel):
     )
     description: Optional[str] = Field(
         None,
-        min_length=FIELD_MIN_LENGHT
+        min_length=FIELD_MIN_LENGHT,
     )
     full_amount: Optional[PositiveInt]
 
