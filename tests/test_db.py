@@ -2,9 +2,9 @@ from conftest import BASE_DIR
 
 
 try:
-    from app.models.financial_base import FinancialBase
+    from app.models.abstract import Investment
 except (NameError, ImportError):
-    class FinancialBase:
+    class Investment:
         pass
 
 try:
@@ -18,13 +18,13 @@ except (NameError, ImportError):
 
 
 def test_fin_base_is_abstract():
-    if hasattr(FinancialBase, '__abstract__'):
-        assert hasattr(FinancialBase, '__abstract__'), (
-            'Модель `FinancialBase` должна быть абстрактной. '
+    if hasattr(Investment, '__abstract__'):
+        assert hasattr(Investment, '__abstract__'), (
+            'Модель `Investment` должна быть абстрактной. '
             'Добавьте атрибут `__abstract__`'
         )
-        assert FinancialBase.__abstract__, (
-            'Таблица `FinancialBase` должна быть абстрактной.'
+        assert Investment.__abstract__, (
+            'Таблица `Investment` должна быть абстрактной.'
         )
 
 
