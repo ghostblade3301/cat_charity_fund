@@ -13,14 +13,13 @@ class CRUDDonation(CRUDBase):
         session: AsyncSession,
         user: User,
     ) -> List[Donation]:
-        '''Получаем список пожертвований пользователя'''
+        """Получаем список пожертвований пользователя."""
         my_donations = await session.execute(
             select(Donation).filter(
                 Donation.user_id == user.id
             )
         )
-        my_donations = my_donations.scalars().all()
-        return my_donations
+        return my_donations.scalars().all()
 
 
 donation_crud = CRUDDonation(Donation)

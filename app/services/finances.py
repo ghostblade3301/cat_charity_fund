@@ -26,29 +26,29 @@ async def get_all_open_projects(
             model.fully_invested == false()
         ).order_by(model.create_date)
     )
-    open_objects = open_objects.scalars().all()
-    return open_objects
+    return open_objects.scalars().all()
 
 
 async def to_invest_free_donates(
     object: Union[CharityProject, Donation],
     session: AsyncSession,
 ) -> None:
-    '''Распределения свободных пожертвований среди открытых проектов'''
+    """Распределения свободных пожертвований среди открытых проектов."""
     MODELS = (CharityProject, Donation)
     model = MODELS[isinstance(object, CharityProject)]
     open_objects = await get_all_open_projects(model, session)
-    if open_objects:
-        invest_amount = object.full_amount
-        for open_object in open_objects:
-            result = open_object.full_amount - open_object.invested_amount
-            invested_amount = min(result, invest_amount)
-            open_object.invested_amount += invested_amount
-            object.invested_amount += invested_amount
-            invest_amount -= invested_amount
-            if open_object.full_amount == open_object.invested_amount:
-                await to_close(open_object)
-            if not invest_amount:
-                await to_close(object)
-                break
-        await session.commit()
+    if not open_objects:
+        return
+    invest_amount = object.full_amount
+    for open_object in open_objects:
+        result = open_object.full_amount - open_object.invested_amount
+        invested_amount = min(result, invest_amount)
+        open_object.invested_amount += invested_amount
+        object.invested_amount += invested_amount
+        invest_amount -= invested_amount
+        if open_object.full_amount == open_object.invested_amount:
+            await to_close(open_object)
+        if not invest_amount:
+            await to_close(object)
+            break
+    await session.commit()

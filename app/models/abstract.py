@@ -7,7 +7,7 @@ from app.core.db import Base
 
 
 class Investment(Base):
-    '''Класс-родитель для CharityProject и Donation.'''
+    """Класс-родитель для CharityProject и Donation."""
     __abstract__ = True
 
     full_amount = Column(

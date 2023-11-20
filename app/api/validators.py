@@ -10,7 +10,7 @@ async def check_project_exists(
     project_id: int,
     session: AsyncSession,
 ) -> CharityProject:
-    '''Проверка существования проекта.'''
+    """Проверка существования проекта."""
     charity_project = await charity_project_crud.get_by_attribute(
         'id',
         project_id,
@@ -28,7 +28,7 @@ async def check_project_name_duplicate(
     project_name: str,
     session: AsyncSession,
 ) -> None:
-    '''Проверка имени проекта на дубликаты'''
+    """Проверка имени проекта на дубликаты"""
     project_id = await charity_project_crud.get_project_id(
         project_name,
         session,
@@ -45,7 +45,7 @@ async def check_project_for_closure(
     project_id: int,
     session: AsyncSession,
 ) -> bool:
-    '''Проверка перед обновлением и закрытием проекта.'''
+    """Проверка перед обновлением и закрытием проекта."""
     charity_project = await charity_project_crud.get_by_attribute(
         'id',
         project_id,
@@ -60,7 +60,7 @@ async def check_project_for_closure(
 
 
 async def to_check_that_project_closed(project: CharityProject) -> None:
-    '''Проверка закрыт ли проект.'''
+    """Проверка закрыт ли проект."""
     if project.fully_invested:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -69,7 +69,7 @@ async def to_check_that_project_closed(project: CharityProject) -> None:
 
 
 async def check_charity_project_investition(project: CharityProject) -> None:
-    '''Проверка проекта на наличие инвестиций'''
+    """Проверка проекта на наличие инвестиций"""
     if project.invested_amount:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,

@@ -32,8 +32,7 @@ router = APIRouter()
 async def get_all_charity_projects(
     session: AsyncSession = Depends(get_async_session),
 ):
-    all_projects = await charity_project_crud.get_multi(session)
-    return all_projects
+    return await charity_project_crud.get_multi(session)
 
 
 @router.post(
@@ -69,7 +68,7 @@ async def delete_charity_project(
     project_id: int,
     session: AsyncSession = Depends(get_async_session),
 ):
-    '''Только для суперюзеров.'''
+    """Только для суперюзеров."""
     charity_project = await check_project_exists(
         project_id,
         session,
@@ -92,7 +91,7 @@ async def update_charity_project(
     object_in: CharityProjectUpdate,
     session: AsyncSession = Depends(get_async_session),
 ):
-    '''Только для суперюзеров.'''
+    """Только для суперюзеров."""
     charity_project = await check_project_exists(
         project_id, session
     )

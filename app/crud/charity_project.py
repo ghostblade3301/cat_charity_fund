@@ -15,22 +15,21 @@ class CRUDCharityProject(CRUDBase):
         project_name: str,
         session: AsyncSession,
     ) -> Optional[int]:
-        '''Берёт id проекта по его имени'''
+        """Берёт id проекта по его имени"""
         project_id = await session.execute(
             select(
                 CharityProject.id).where(
                 CharityProject.name == project_name
             )
         )
-        project_id = project_id.scalars().first()
-        return project_id
+        return project_id.scalars().first()
 
     async def delete(
         self,
         db_project: CharityProject,
         session: AsyncSession,
     ) -> CharityProject:
-        '''Удаляет проект из базы'''
+        """Удаляет проект из базы"""
         await session.delete(db_project)
         await session.commit()
         return db_project
@@ -41,7 +40,7 @@ class CRUDCharityProject(CRUDBase):
         project: CharityProjectUpdate,
         session: AsyncSession,
     ) -> CharityProject:
-        '''Обновляет проект в базе'''
+        """Обновляет проект в базе"""
         object_data = jsonable_encoder(db_project)
         updated_data = project.dict(exclude_unset=True)
 
